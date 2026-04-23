@@ -4,6 +4,13 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { createBrowserClient } from '@supabase/ssr'
+import { useContextMode, type ContextMode } from '@/context/ContextMode'
+
+const CONTEXT_MODES: { value: ContextMode; label: string }[] = [
+  { value: 'all', label: 'All' },
+  { value: 'personal', label: 'Personal' },
+  { value: 'work', label: 'Work' },
+]
 
 const navItems = [
   { href: '/tasks', label: 'Tasks', icon: '✓' },
@@ -19,6 +26,7 @@ export default function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const [signingOut, setSigningOut] = useState(false)
+  const { mode, setMode } = useContextMode()
 
   async function handleSignOut() {
     if (!supabaseUrl || !supabaseKey) return
@@ -55,7 +63,23 @@ export default function Sidebar() {
           )
         })}
       </nav>
-      <div className="px-4 py-3 border-t border-border space-y-2">
+      <div className="px-4 py-3 border-t border-border space-y-3">
+        <div className="flex rounded-md overflow-hidden border border-border">
+          {CONTEXT_MODES.map(({ value, label }) => (
+            <button
+              key={value}
+              onClick={() => setMode(value)}
+              className={cn(
+                'flex-1 py-1 text-[10px] transition-colors',
+                mode === value
+                  ? 'bg-accent text-white font-medium'
+                  : 'text-muted hover:text-text bg-surface'
+              )}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
         <p className="text-xs text-muted">Week of Apr 20-26</p>
         <button
           onClick={handleSignOut}

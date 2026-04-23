@@ -17,7 +17,6 @@ const supabase = createClient(url, key)
 
 // Strip id field — let Supabase generate real UUIDs
 function stripId<T extends { id: string }>(items: T[]): Omit<T, 'id'>[] {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return items.map(({ id: _id, ...rest }) => rest)
 }
 
@@ -44,7 +43,6 @@ async function seed() {
   const oldIdToName = new Map(seedProjects.map(p => [p.id, p.name]))
 
   // Project tasks — remap project_id to real UUIDs
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const remappedTasks = seedProjectTasks.map(({ id: _id, project_id, ...rest }) => {
     const projectName = oldIdToName.get(project_id)
     const realProjectId = projectName ? nameToRealId.get(projectName) : undefined
