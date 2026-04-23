@@ -3,7 +3,6 @@ import './globals.css'
 import Sidebar from '@/components/layout/Sidebar'
 import MobileNav from '@/components/layout/MobileNav'
 import ChatBar from '@/components/ui/ChatBar'
-import ContextToggle from '@/components/ui/ContextToggle'
 import AppShell from '@/components/layout/AppShell'
 import { isSupabaseConfigured } from '@/lib/data'
 
@@ -18,8 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="bg-bg text-text antialiased">
         <AppShell>
-          <ContextToggle />
-          <div className="flex h-[calc(100vh-36px)] overflow-hidden">
+          <div className="flex h-screen overflow-hidden">
             <Sidebar />
             <main className="flex-1 overflow-y-scroll">
               {!hasSupabase && (
